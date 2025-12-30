@@ -1,6 +1,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include "pitches.h"
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
@@ -8,6 +9,30 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 const int frameDelay = 350;
+
+const int speakerPin = 4;     // Пин для динамика
+
+const int melody[] = {  
+	 NOTE_E5, NOTE_E5, NOTE_E5,  
+	 NOTE_E5, NOTE_E5, NOTE_E5,  
+	 NOTE_E5, NOTE_G5, NOTE_C5, NOTE_D5,  
+	 NOTE_E5,  
+	 NOTE_F5, NOTE_F5, NOTE_F5, NOTE_F5,  
+	 NOTE_F5, NOTE_E5, NOTE_E5, NOTE_E5, NOTE_E5,  
+	 NOTE_E5, NOTE_D5, NOTE_D5, NOTE_E5,  
+	 NOTE_D5, NOTE_G5  
+};  
+
+const int durations[] = {  
+	 8, 8, 4,  
+	 8, 8, 4,  
+	 8, 8, 8, 8,  
+	 2,  
+	 8, 8, 8, 8,  
+	 8, 8, 8, 16, 16,  
+	 8, 8, 8, 8,  
+	 4, 4  
+}; 
 
 // ---------- ОГОНЬКИ ----------
 struct Light {
@@ -125,6 +150,26 @@ void drawSNowMan() {
   display.drawLine(10, 41, 24, 41, WHITE);
 }
 
+void playSound() {
+	 int size = sizeof(durations) / sizeof(int);  
+	  
+	 for (int note = 0; note < size; note++) {  
+	   //to calculate the note duration, take one second divided by the note type.  
+	   //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.  
+	   int duration = 1000 / durations[note];  
+	   tone(speakerPin, melody[note], duration);  
+	  
+	   //to distinguish the notes, set a minimum time between them.  
+	   //the note's duration + 30% seems to work well:  
+	   int pauseBetweenNotes = duration * 1.30;  
+	   delay(pauseBetweenNotes);  
+	  
+	   //stop the tone playing:  
+	   noTone(speakerPin);  
+	 }  
+
+}
+
 void setup() {
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   randomSeed(analogRead(0));
@@ -134,10 +179,14 @@ void setup() {
     snow[i].y = random(0, SCREEN_HEIGHT);
     snow[i].speed = random(1, 10);  // скорость падения
   }
+
+  pinMode(speakerPin, OUTPUT);  
 }
 
 void loop() {
   static bool state = false;
+
+  playSound();
 
   display.clearDisplay();
 
