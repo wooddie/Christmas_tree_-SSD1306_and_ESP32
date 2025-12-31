@@ -13,4 +13,8 @@ All animations and sound playback are **non-blocking** (`millis()` based).
 
 ---
 
+Use **LM386** & **0.8 Ohm speaker** for sound output
+
+---
+
 ## 📸 Demo
