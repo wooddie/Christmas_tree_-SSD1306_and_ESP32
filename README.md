@@ -13,7 +13,14 @@ All animations and sound playback are **non-blocking** (`millis()` based).
 
 ---
 
-Use **LM386** & **0.8 Ohm speaker** for sound output
+# 🧰 Hardware Used
+
+| Component       | Description                         |
+| --------------- | ----------------------------------- |
+| Microcontroller | ESP32                               |
+| Display         | OLED SSD1306 (128x64, I2C)          |
+| Speaker         | 8Ω speaker                          |
+| Optional        | Audio amplifier (LM386 recommended) |
 
 ---
 
