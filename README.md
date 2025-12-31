@@ -24,4 +24,15 @@ All animations and sound playback are **non-blocking** (`millis()` based).
 
 ---
 
+# 📚 Libraries Used
+
+Install via Arduino Library Manager:
+- Adafruit_GFX
+- Adafruit_SSD1306
+- 
+Install manually
+- pitches ( https://github.com/hibit-dev/buzzer )
+
+---
+
 ## 📸 Demo
